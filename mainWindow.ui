@@ -30,6 +30,13 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Nombre de mesures</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="2">
         <widget class="QSpinBox" name="tempo">
          <property name="minimum">
@@ -37,6 +44,9 @@
          </property>
          <property name="maximum">
           <number>300</number>
+         </property>
+         <property name="value">
+          <number>60</number>
          </property>
         </widget>
        </item>
@@ -84,10 +94,10 @@
          </item>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="nbMesures">
-         <property name="minimum">
-          <number>1</number>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Tempo</string>
          </property>
         </widget>
        </item>
@@ -98,18 +108,88 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Nombre de mesures</string>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="nbMesures">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>4</number>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Tempo</string>
+       <item row="1" column="3">
+        <widget class="QFrame" name="frame_2">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLCDNumber" name="un">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+            <property name="value" stdset="0">
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="deux">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+            <property name="value" stdset="0">
+             <double>2.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="trois">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+            <property name="value" stdset="0">
+             <double>3.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="quatre">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+            <property name="value" stdset="0">
+             <double>4.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QFrame" name="frame_4">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Mesure:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="mesure"/>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -178,6 +258,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>note</tabstop>
+  <tabstop>nbMesures</tabstop>
+  <tabstop>tempo</tabstop>
+  <tabstop>uneFois</tabstop>
+  <tabstop>startStop</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter, QPixmap, QPen, QBrush, QColor
 from PyQt5.QtCore import QPoint, QLine
-from PyQt5.Qt import Qt
+from PyQt5.Qt import Qt, pyqtSignal
 
 OFFSET_CORDES = 10
 INTERVALE_CORDES = 20
@@ -9,10 +9,16 @@ POSITIONS_FRETS = [11, 90, 167, 242, 316, 387, 455, 522, 587, 650, 710, 771, 827
 
 
 class Widget(QWidget):
+    repaintSignal = pyqtSignal()
+
     def __init__(self, parent):
         super(Widget, self).__init__()
         self.pixmap_ = QPixmap("manche.png")
         self.position_ = [(0, 0), (0, 0)]
+        self.repaintSignal.connect(self.repaintSlot)
+
+    def repaintSlot(self):
+        self.repaint()
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -43,4 +49,4 @@ class Widget(QWidget):
 
     def setPosition(self, position):
         self.position_ = position
-        self.repaint()
+        self.repaintSignal.emit()
