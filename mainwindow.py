@@ -31,7 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #                exit(0)
 
     def click1fois(self):
-        tonique = "La"#self.note.currentText()
+        tonique = self.note.currentText()
         while True:
             corde = random.randint(3, 6)
             liste = POSITIONS[corde]
