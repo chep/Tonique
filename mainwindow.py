@@ -1,8 +1,9 @@
 import random
-from threading import Timer
+from threading import Timer, Thread
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QWidget
 from PyQt5.QtGui import QColor, QPalette
 from PyQt5.Qt import Qt
+import playsound
 
 from ui_mainWindow import Ui_MainWindow
 import widget
@@ -72,16 +73,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.widget_.setPosition([(corde, case),
                                   (deuxiemeCorde, deuxiemeCase)])
 
+    def playsound(self, fichier):
+        playsound.playsound(fichier)
+
     def tempsSuivant(self):
         self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.white)
         self.temps_ = (self.temps_ + 1) % len(self.NOMBRES_)
         self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.red)
         if self.temps_ == 0:
+            t = Thread(target = self.playsound, args = ("premier.oga",))
+            t.start()
             self.mesure_ += 1
             if self.mesure_ > self.nbMesures.value():
                 self.click1fois()
                 self.mesure_ = 1
             self.mesure.display(self.mesure_)
+        else:
+            t = Thread(target = self.playsound, args = ("autres.oga",))
+            t.start()
+
         self.timer_ = Timer(60 / self.tempo.value(),
                             self.tempsSuivant)
         self.timer_.start()
@@ -108,6 +118,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.mesure_ = 1
             self.mesure.display(1)
             self.changeCouleurNombre(self.NOMBRES_[0], Qt.red)
+            t = Thread(target = self.playsound, args = ("premier.oga",))
+            t.start()
             self.click1fois()
             self.timer_ = Timer(60 / self.tempo.value(),
                                 self.tempsSuivant)
