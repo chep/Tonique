@@ -14,7 +14,7 @@
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
 
 
- from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter, QPixmap, QPen, QBrush, QColor
 from PyQt5.QtCore import QPoint, QLine
 from PyQt5.Qt import Qt, pyqtSignal
