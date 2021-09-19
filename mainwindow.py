@@ -17,7 +17,7 @@ import random
 from threading import Timer, Thread
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QWidget
 from PyQt5.QtGui import QColor, QPalette
-from PyQt5.Qt import Qt
+from PyQt5.Qt import Qt, pyqtSignal
 import playsound
 
 from ui_mainWindow import Ui_MainWindow
@@ -38,6 +38,8 @@ POSITIONS = {6: [(3, -3), (4, +2)],
              3: [(1, +3)]}
 
 class MainWindow(QMainWindow, Ui_MainWindow):
+    repaintSignal = pyqtSignal()
+
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
@@ -51,9 +53,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.demarre_ = False
         self.mesure_ = 0
         random.seed()
+        self.repaintSignal.connect(self.repaintSlot)
 
     def destructeur(self):
         self.timer_.cancel()
+
+    def repaintSlot(self):
+        self.repaint()
 
     def click1fois(self):
         tonique = self.note.currentText()
@@ -87,6 +93,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.widget_.setPosition([(corde, case),
                                   (deuxiemeCorde, deuxiemeCase)])
+        self.repaintSignal.emit()
+
 
     def playsound(self, fichier):
         playsound.playsound(fichier)
@@ -110,6 +118,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.timer_ = Timer(60 / self.tempo.value(),
                             self.tempsSuivant)
         self.timer_.start()
+        self.repaintSignal.emit()
+
 
     def changeCouleurNombre(self, nombre, couleur):
         pal = nombre.palette()
