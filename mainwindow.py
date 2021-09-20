@@ -107,8 +107,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             t = Thread(target = self.playsound, args = ("premier.oga",))
             t.start()
             self.mesure_ += 1
-            if self.mesure_ > self.nbMesures.value():
+            if self.mesure_ == self.nbMesures.value() or self.nbMesures.value() == 1:
                 self.click1fois()
+                self.changeCouleurNombre(self.mesure, Qt.red)
+            if self.mesure_ > self.nbMesures.value():
+                self.changeCouleurNombre(self.mesure, Qt.white)
                 self.mesure_ = 1
             self.mesure.display(self.mesure_)
         else:

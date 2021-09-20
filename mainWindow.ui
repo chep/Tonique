@@ -187,7 +187,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="mesure"/>
+           <widget class="QLCDNumber" name="mesure">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

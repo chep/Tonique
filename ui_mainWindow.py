@@ -99,6 +99,7 @@ class Ui_MainWindow(object):
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_4.addWidget(self.label_4)
         self.mesure = QtWidgets.QLCDNumber(self.frame_4)
+        self.mesure.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
         self.mesure.setObjectName("mesure")
         self.horizontalLayout_4.addWidget(self.mesure)
         self.gridLayout_2.addWidget(self.frame_4, 0, 3, 1, 1)
