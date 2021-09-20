@@ -100,7 +100,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         playsound.playsound(fichier)
 
     def tempsSuivant(self):
-        self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.white)
+        self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.green)
         self.temps_ = (self.temps_ + 1) % len(self.NOMBRES_)
         self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.red)
         if self.temps_ == 0:
@@ -111,7 +111,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.click1fois()
                 self.changeCouleurNombre(self.mesure, Qt.red)
             if self.mesure_ > self.nbMesures.value():
-                self.changeCouleurNombre(self.mesure, Qt.white)
+                self.changeCouleurNombre(self.mesure, Qt.green)
                 self.mesure_ = 1
             self.mesure.display(self.mesure_)
         else:
@@ -135,13 +135,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.demarre_ = False
             self.timer_.cancel()
             for i in self.NOMBRES_:
-                self.changeCouleurNombre(i, Qt.white)
+                self.changeCouleurNombre(i, Qt.green)
             self.mesure.display(0)
         else:
             self.demarre_ = True
             self.startStop.setText("Stop")
             for i in self.NOMBRES_:
-                self.changeCouleurNombre(i, Qt.white)
+                self.changeCouleurNombre(i, Qt.green)
             self.temps_ = 0
             self.mesure_ = 1
             self.mesure.display(1)
