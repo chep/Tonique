@@ -14,11 +14,12 @@
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
 
 import random
-from threading import Timer, Thread
+from threading import Thread
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QWidget
 from PyQt5.QtGui import QColor, QPalette
 from PyQt5.Qt import Qt, pyqtSignal
 import playsound
+import time
 
 from ui_mainWindow import Ui_MainWindow
 import widget
@@ -56,7 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.repaintSignal.connect(self.repaintSlot)
 
     def destructeur(self):
-        self.timer_.cancel()
+        self.demarre_ = False
 
     def repaintSlot(self):
         self.repaint()
@@ -99,30 +100,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def playsound(self, fichier):
         playsound.playsound(fichier)
 
-    def tempsSuivant(self):
-        self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.green)
-        self.temps_ = (self.temps_ + 1) % len(self.NOMBRES_)
-        self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.red)
-        if self.temps_ == 0:
-            t = Thread(target = self.playsound, args = ("premier.oga",))
-            t.start()
-            self.mesure_ += 1
-            if self.mesure_ == self.nbMesures.value() or self.nbMesures.value() == 1:
-                self.click1fois()
-                self.changeCouleurNombre(self.mesure, Qt.red)
-            if self.mesure_ > self.nbMesures.value():
-                self.changeCouleurNombre(self.mesure, Qt.green)
-                self.mesure_ = 1
-            self.mesure.display(self.mesure_)
-        else:
-            t = Thread(target = self.playsound, args = ("autres.oga",))
-            t.start()
-
-        self.timer_ = Timer(60 / self.tempo.value(),
-                            self.tempsSuivant)
-        self.timer_.start()
-        self.repaintSignal.emit()
-
+    def metronome(self):
+        self.tempsDepart_ = time.perf_counter()
+        while self.demarre_:
+            attente = (60. / self.tempo.value())
+            while time.perf_counter() < self.tempsDepart_ + attente:
+                pass
+            self.tempsDepart_ = time.perf_counter()
+            self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.blue)
+            self.temps_ = (self.temps_ + 1) % len(self.NOMBRES_)
+            self.changeCouleurNombre(self.NOMBRES_[self.temps_], Qt.red)
+            if self.temps_ == 0:
+                t = Thread(target = self.playsound, args = ("premier.wav",))
+                t.start()
+                self.mesure_ += 1
+                if self.mesure_ == self.nbMesures.value() or self.nbMesures.value() == 1:
+                    self.click1fois()
+                    self.changeCouleurNombre(self.mesure, Qt.red)
+                if self.mesure_ > self.nbMesures.value():
+                    self.changeCouleurNombre(self.mesure, Qt.blue)
+                    self.mesure_ = 1
+                self.mesure.display(self.mesure_)
+            else:
+                t = Thread(target = self.playsound, args = ("autres.wav",))
+                t.start()
+            self.repaintSignal.emit()
 
     def changeCouleurNombre(self, nombre, couleur):
         pal = nombre.palette()
@@ -133,15 +135,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.demarre_:
             self.startStop.setText("Start")
             self.demarre_ = False
-            self.timer_.cancel()
             for i in self.NOMBRES_:
-                self.changeCouleurNombre(i, Qt.green)
+                self.changeCouleurNombre(i, Qt.blue)
             self.mesure.display(0)
         else:
             self.demarre_ = True
             self.startStop.setText("Stop")
             for i in self.NOMBRES_:
-                self.changeCouleurNombre(i, Qt.green)
+                self.changeCouleurNombre(i, Qt.blue)
             self.temps_ = 0
             self.mesure_ = 1
             self.mesure.display(1)
@@ -149,6 +150,5 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             t = Thread(target = self.playsound, args = ("premier.oga",))
             t.start()
             self.click1fois()
-            self.timer_ = Timer(60 / self.tempo.value(),
-                                self.tempsSuivant)
-            self.timer_.start()
+            t = Thread(target = self.metronome)
+            t.start()
